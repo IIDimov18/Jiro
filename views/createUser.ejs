@@ -20,11 +20,11 @@
               <div class="col py-3">
                   <p class="fs-1 fw-bold text-center">Register a user</p>
                   <div class="container w-100 rounded bg-light border border-dark">
-                  <form>
+                  <form action="createUser" method="post">
                      <div class="row mt-4 justify-content-center">
                          <div class="col-md-10 col-lg-4">
                              <label for="username" class="form-label">Username</label>
-                             <input type="text" class="form-control" id="username">
+                             <input type="text" class="form-control" id="username" name="username">
                          </div>
 
                      </div>
@@ -32,22 +32,28 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10 col-lg-4">
                             <label for="firstName" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="firstName">
+                            <input type="text" class="form-control" id="firstName" name="firstName">
                         </div>
 
                     </div>
                       <div class="row justify-content-center">
                           <div class="col-md-10 col-lg-4">
                               <label for="secondName" class="form-label">Second name</label>
-                              <input type="text" class="form-control" id="secondName">
+                              <input type="text" class="form-control" id="secondName" name="secondName">
                           </div>
                       </div>
                       <div class="row justify-content-center">
                           <div class="col-md-10 col-lg-4">
                               <label for="Password" class="form-label">Password</label>
-                              <input type="password" class="form-control" id="Password">
+                              <input type="password" class="form-control" id="Password" name="password">
                           </div>
                       </div>
+                      <div class="row justify-content-center pt-2">
+                        <div class="col-md-10 col-lg-4">
+                          <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
+                          <label class="form-check-label" for="isAdmin">Admin</label>
+                        </div>
+                    </div>
                       <div class="row justify-content-center pt-3 pb-5">
                           <div class="col-4 d-grid">
                               <button type="submit" class="btn btn-primary btn-block">Register</button>

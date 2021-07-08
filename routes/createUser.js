@@ -9,4 +9,8 @@ router.get('/', (req, res, next) => {
   res.render('createUser', { title: 'Express' });
 });
 
+
+router.post('/', (req, res, next) => {
+  console.log(req.body);
+});
 module.exports = router;
