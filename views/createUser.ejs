@@ -24,7 +24,7 @@
                      <div class="row mt-4 justify-content-center">
                          <div class="col-md-10 col-lg-4">
                              <label for="username" class="form-label">Username</label>
-                             <input type="text" class="form-control" id="username" name="username" value="<%= body.username %>">
+                             <input type="text" class="form-control" id="username" name="username" minlength="3" maxlength="18" value="<%= body.username %>">
                              <p class="username text-danger fw-bold"><%= formattedErrors.username  %></p>
                          </div>
 
@@ -33,7 +33,7 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10 col-lg-4">
                             <label for="firstName" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName" value="<%= body.firstName %>">
+                            <input type="text" class="form-control" id="firstName" name="firstName" required value="<%= body.firstName %>">
                             <p class="username text-danger fw-bold" ><%= formattedErrors.firstName  %></p>
                         </div>
 
@@ -41,14 +41,14 @@
                       <div class="row justify-content-center">
                           <div class="col-md-10 col-lg-4">
                               <label for="lastName" class="form-label">Last name</label>
-                              <input type="text" class="form-control" id="lastName" name="lastName" value="<%= body.lastName %>">
+                              <input type="text" class="form-control" id="lastName" name="lastName" required value="<%= body.lastName %>">
                               <p class="username text-danger fw-bold" ><%= formattedErrors.lastName  %></p>
                           </div>
                       </div>
                       <div class="row justify-content-center">
                           <div class="col-md-10 col-lg-4">
                               <label for="Password" class="form-label">Password</label>
-                              <input type="password" class="form-control" id="Password" name="password" value="<%= body.password %>">
+                              <input type="password" class="form-control" id="Password" name="password" required minlength="7" maxlength="50" value="<%= body.password %>">
                               <p class="username text-danger fw-bold" ><%= formattedErrors.password  %></p>
                           </div>
                       </div>

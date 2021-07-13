@@ -41,33 +41,33 @@ class db {
      * 
      *  */ 
 
-    async registerUser(firstName, lastName, username, password, salt, token,isAdmin) {
+    async registerUser(firstName, lastName, username, password, salt,isAdmin,token) {
         const request = new sql.Request();
 
         request.input('FirstName', sql.NVarChar, firstName)
             .input('LastName', sql.NVarChar, lastName)
-            .input('Username', sql.NVarChar, username)
+            .input('username', sql.NVarChar, username)
             .input('HashPassword', sql.VarChar, password)
             .input('salt', sql.VarChar, salt)
-            .input('token',sql.VarChar,token)
-            .input('isAdmin',sql.Bit,isAdmin);
+            .input('isAdmin',sql.Bit,isAdmin)
+            .input('Token',sql.VarChar,token);
 
         let result;
-
+        console.log(salt);
         try {
             result = await request.query(
                 `EXEC RegisterUser
-            @Username = @Username,
+            @Username = @username,
             @FirstName = @FirstName,
             @LastName = @LastName,
             @Password = @HashPassword,
             @Salt = @salt,
-            @IsAdmin = @isAdmin
-            @CreatorToken = @token`
+            @IsAdmin = @isAdmin,
+            @CreatorToken = @Token`
             );
         } catch (err) {
             return new Array(err);
-        }
+        } 
 
         return result.recordset;
     }
