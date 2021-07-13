@@ -10,7 +10,7 @@
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title><%= title %></title>
+
   </head>
   <body>
       <div class="container-fluid">
@@ -24,8 +24,8 @@
                      <div class="row mt-4 justify-content-center">
                          <div class="col-md-10 col-lg-4">
                              <label for="username" class="form-label">Username</label>
-                             <input type="text" class="form-control" id="username" name="username">
-                             <p class="username text-danger fw-bold" hidden></p>
+                             <input type="text" class="form-control" id="username" name="username" value="<%= body.username %>">
+                             <p class="username text-danger fw-bold"><%= formattedErrors.username  %></p>
                          </div>
 
                      </div>
@@ -33,28 +33,28 @@
                     <div class="row justify-content-center">
                         <div class="col-md-10 col-lg-4">
                             <label for="firstName" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName">
-                            <p class="username text-danger fw-bold" hidden></p>
+                            <input type="text" class="form-control" id="firstName" name="firstName" value="<%= body.firstName %>">
+                            <p class="username text-danger fw-bold" ><%= formattedErrors.firstName  %></p>
                         </div>
 
                     </div>
                       <div class="row justify-content-center">
                           <div class="col-md-10 col-lg-4">
                               <label for="lastName" class="form-label">Last name</label>
-                              <input type="text" class="form-control" id="lastName" name="lastName">
-                              <p class="username text-danger fw-bold"hidden ></p>
+                              <input type="text" class="form-control" id="lastName" name="lastName" value="<%= body.lastName %>">
+                              <p class="username text-danger fw-bold" ><%= formattedErrors.lastName  %></p>
                           </div>
                       </div>
                       <div class="row justify-content-center">
                           <div class="col-md-10 col-lg-4">
                               <label for="Password" class="form-label">Password</label>
-                              <input type="password" class="form-control" id="Password" name="password">
-                              <p class="username text-danger fw-bold" hidden></p>
+                              <input type="password" class="form-control" id="Password" name="password" value="<%= body.password %>">
+                              <p class="username text-danger fw-bold" ><%= formattedErrors.password  %></p>
                           </div>
                       </div>
                       <div class="row justify-content-center pt-2">
                         <div class="col-md-10 col-lg-4">
-                          <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin">
+                          <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin" <%= body.isAdmin == 'on' ? 'checked' : '' %>>
                           <label class="form-check-label" for="isAdmin">Admin</label>
                         </div>
                     </div>

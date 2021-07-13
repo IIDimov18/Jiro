@@ -9,18 +9,25 @@ let DB = new db();
 router.get('/', (req, res, next) => {
   res.render('createUser', { title: 'Express' });
 });
-
+ 
 
 router.post('/',
-body('username').isLength({ min: 5 }).bail().isLength({ max: 18 }).bail().isAlphanumeric(),
-body('firstName').isAlpha(),
-body('lastName').isAlpha(),
-body('password').isLength({min: 7, max: 50}),
+body('username').isLength({ min: 5, max: 18  }).withMessage('Username must be 5-18 characters').bail().isAlphanumeric().withMessage('Username can only contain numbers and english letters'),
+body('firstName').isAlpha().withMessage('First name can only contain english letters'),
+body('lastName').isAlpha().withMessage('Last name can only contain english letters'),
+body('password').isLength({min: 7, max: 50}).withMessage('password must be 7-50 characters'),
  (req, res, next) => {
-  const errors = validationResult(req);
+  let errors = validationResult(req);
+  let body = req.body;
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    let formattedErrors = {};
+    for(const value of errors.errors){
+      formattedErrors[value.param] = value.msg;
+    }
+    console.log(req.body);
+    return res.render('createUser',{formattedErrors, body});
+    return res.status(400).json({ errors: formattedErrors });
   }
 });
 module.exports = router;
