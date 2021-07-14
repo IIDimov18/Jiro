@@ -8,6 +8,7 @@ var router = express.Router();
 let DB = new db();
 
 router.get('/', (req, res, next) => {
+  console.log(req.session);
     let formattedErrors = {};
   res.render('createUser', { body, formattedErrors});
 });
@@ -17,7 +18,6 @@ router.post('/',
 body('username').isLength({ min: 3, max: 18  }).withMessage('Username must be 3-18 characters').bail().isAlphanumeric().withMessage('Username can only contain numbers and english letters'),
 body('firstName').isAlpha().withMessage('First name can only contain english letters'),
 body('lastName').isAlpha().withMessage('Last name can only contain english letters'),
-body('password').isLength({min: 7, max: 50}).withMessage('password must be 7-50 characters'),
 async (req, res, next) => {
   let errors = validationResult(req);
   let body = req.body;

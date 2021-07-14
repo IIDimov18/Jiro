@@ -109,6 +109,62 @@ class db {
         return result.recordset;
     }
 
+    async deleteUser(id){
+        const request = new sql.Request();
+
+        request.input('Id', sql.Int,id);
+
+        let result;
+
+        try {
+            result = await request.query(
+                `DELETE FROM Users WHERE Id = @Id`
+            );
+        } catch (err) {
+            return new Array(err);
+        }
+
+        return result.recordset;
+    }
+
+    async editUser(id,username,firstName,lastName,isAdmin,token){
+        const request = new sql.Request();
+
+        request.input('FirstName', sql.NVarChar, firstName)
+            .input('LastName', sql.NVarChar, lastName)
+            .input('username', sql.NVarChar, username)
+            .input('isAdmin',sql.Bit,isAdmin)
+            .input('ChangerToken',sql.VarChar,token)
+            .input('Id', sql.Int,id);
+
+        let result;
+
+        try {
+            result = await request.query(
+                `UPDATE Users SET Firstname = @FirstName, Lastname = @LastName, Username = @Username, isAdmin = @IsAdmin, IdOfLastChanger = (SELECT Id FROM Users WHERE Token = @ChangerToken) WHERE Id = @Id`
+            );
+        } catch (err) {
+            return new Array(err);
+        }
+
+        return result.recordset;
+    }
+
+    async getUsers(){
+        const request = new sql.Request();
+
+        let result;
+
+        try {
+            result = await request.query(
+                `SELECT Id, Username, FirstName, LastName, IdOfCreator, isAdmin FROM Users`
+            );
+        } catch (err) {
+            return new Array(err);
+        }
+
+        return result.recordset;
+    }
 
     //private
     static _config = dbConfig.config;

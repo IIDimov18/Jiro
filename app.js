@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var createUserRouter = require('./routes/createUser');
+var createTeamRouter = require('./routes/createTeam');
 
 var app = express();
 
@@ -33,19 +34,20 @@ app.use(session({
 
 // Check if user is logged if not it redirects him to the login
 // it's commented right now for easier development and testing
-app.use(function (req, res, next) {
-  if (typeof req.session === 'undefined' && req.originalUrl !== '/login'){
-    console.log("there is no session");
-    res.redirect('login');
-  }else{
-    next();
-  }
-})
+// app.use(function (req, res, next) {
+//   if (typeof req.session.Token === 'undefined' && req.originalUrl !== '/login'){
+//     console.log("there is no session");
+//     res.redirect('login');
+//   }else{
+//     next();
+//   }
+// })
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login',loginRouter);
 app.use('/createUser',createUserRouter);
+app.use('/createTeam',createTeamRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
