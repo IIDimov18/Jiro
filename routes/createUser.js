@@ -9,9 +9,9 @@ let DB = new db();
 
 router.get('/', (req, res, next) => {
     let formattedErrors = {};
-  res.render('createUser', { title: 'Express' ,body, formattedErrors});
+  res.render('createUser', { body, formattedErrors});
 });
- 
+
 
 router.post('/',
 body('username').isLength({ min: 3, max: 18  }).withMessage('Username must be 3-18 characters').bail().isAlphanumeric().withMessage('Username can only contain numbers and english letters'),
@@ -21,22 +21,23 @@ body('password').isLength({min: 7, max: 50}).withMessage('password must be 7-50 
 async (req, res, next) => {
   let errors = validationResult(req);
   let body = req.body;
+  let formattedErrors = {};
 
   if (!errors.isEmpty()) {
 
-    let formattedErrors = {};
-    
+
+
     for(const value of errors.errors){
       formattedErrors[value.param] = value.msg;
     }
-    
+
     return res.render('createUser',{formattedErrors, body});
-  
+
   }
 
   let salt = await bcrypt.genSalt();
   let hashedPassword = await bcrypt.hash(body.password,salt);
-  
+
 
   let result  = await DB.registerUser(body.firstName,
     body.lastName,
@@ -48,14 +49,14 @@ async (req, res, next) => {
 
     if(typeof result[0].Success !== 'undefined'){
 
-      let formattedErrors = {},body = {};
+      let body = {};
       return res.render('createUser',{formattedErrors,body});
 
     }else{
 
-      let formattedErrors = {username : 'There is already user with that username'}; 
+      formattedErrors = {username : 'There is already user with that username'};
       return res.render('createUser',{formattedErrors, body});
-    
+
     }
 });
 module.exports = router;

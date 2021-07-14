@@ -4,6 +4,7 @@ var path = require('path');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+let session = require('express-session')
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,6 +23,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: "I am adopted",
+  cookie: {maxAge: 30000},
+  resave: false,
+  saveUninitialized: false
+}));
+
+
+// Check if user is logged if not it redirects him to the login
+// it's commented right now for easier development and testing
+app.use(function (req, res, next) {
+  if (typeof req.session === 'undefined' && req.originalUrl !== '/login'){
+    console.log("there is no session");
+    res.redirect('login');
+  }else{
+    next();
+  }
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

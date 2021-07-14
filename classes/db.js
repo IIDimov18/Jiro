@@ -17,7 +17,7 @@ class db {
     /**
      * @method connectToDB
      * Try to make connection to the database
-     * 
+     *
      */
     static async connectToDB() {
         try {
@@ -30,7 +30,7 @@ class db {
     }
 
     /**
-     * @method registerUser execute the stored procedure with the given parameters    
+     * @method registerUser execute the stored procedure with the given parameters
      * @param {string} firstName first name of the user
      * @param {string} lastName last name of the user
      * @param {string} username username of the user
@@ -38,8 +38,8 @@ class db {
      * @param {string} salt salt for the password of the new user
      * @param {string} token the token of the admin that created the user
      * @param {string} isAdmin this indicate if the user is going to be admin
-     * 
-     *  */ 
+     *
+     *  */
 
     async registerUser(firstName, lastName, username, password, salt,isAdmin,token) {
         const request = new sql.Request();
@@ -53,7 +53,7 @@ class db {
             .input('Token',sql.VarChar,token);
 
         let result;
-        console.log(salt);
+
         try {
             result = await request.query(
                 `EXEC RegisterUser
@@ -67,7 +67,44 @@ class db {
             );
         } catch (err) {
             return new Array(err);
-        } 
+        }
+
+        return result.recordset;
+    }
+
+    async getSalt(username) {
+        const request = new sql.Request();
+
+        request.input('username', sql.NVarChar, username);
+
+        let result;
+
+        try {
+            result = await request.query(
+                `SELECT Salt FROM Users WHERE Username = @username`
+            );
+        } catch (err) {
+            return new Array(err);
+        }
+
+        return result.recordset;
+    }
+
+    async loginUser(username,password) {
+        const request = new sql.Request();
+
+        request.input('username', sql.NVarChar, username)
+            .input('HashPassword', sql.VarChar, password);
+
+        let result;
+
+        try {
+            result = await request.query(
+                `SELECT Token, isAdmin FROM Users WHERE Username = @username`
+            );
+        } catch (err) {
+            return new Array(err);
+        }
 
         return result.recordset;
     }
