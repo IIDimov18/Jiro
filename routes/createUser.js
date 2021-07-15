@@ -9,6 +9,9 @@ let DB = new db();
 
 router.get('/', (req, res, next) => {
   console.log(req.session);
+  if(req.session.isAdmin != true){
+    res.redirect('login');
+  }
     let formattedErrors = {};
   res.render('createUser', { body, formattedErrors});
 });
@@ -19,6 +22,9 @@ body('username').isLength({ min: 3, max: 18  }).withMessage('Username must be 3-
 body('firstName').isAlpha().withMessage('First name can only contain english letters'),
 body('lastName').isAlpha().withMessage('Last name can only contain english letters'),
 async (req, res, next) => {
+  if(req.session.isAdmin != true){
+    res.redirect('login');
+  }
   let errors = validationResult(req);
   let body = req.body;
   let formattedErrors = {};
@@ -45,7 +51,7 @@ async (req, res, next) => {
     hashedPassword,
     salt,
     typeof body.isAdmin === 'undefined' ? 0 : 1,
-    'nqkavToken');
+    req.session.Token);
 
     if(typeof result[0].Success !== 'undefined'){
 

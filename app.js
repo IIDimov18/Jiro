@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: "I am adopted",
-  cookie: {maxAge: 30000},
+  cookie: {maxAge: 300000},
   resave: false,
   saveUninitialized: false
 }));
@@ -34,14 +34,14 @@ app.use(session({
 
 // Check if user is logged if not it redirects him to the login
 // it's commented right now for easier development and testing
-// app.use(function (req, res, next) {
-//   if (typeof req.session.Token === 'undefined' && req.originalUrl !== '/login'){
-//     console.log("there is no session");
-//     res.redirect('login');
-//   }else{
-//     next();
-//   }
-// })
+app.use(function (req, res, next) {
+  if (typeof req.session.Token === 'undefined' && req.originalUrl !== '/login'){
+    console.log("there is no session");
+    res.redirect('login');
+  }else{
+    next();
+  }
+})
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

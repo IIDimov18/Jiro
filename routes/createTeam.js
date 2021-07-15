@@ -15,9 +15,7 @@ router.get('/', (req, res, next) => {
 
 
 router.post('/',
-    body('username').isLength({ min: 3, max: 18  }).withMessage('Username must be 3-18 characters').bail().isAlphanumeric().withMessage('Username can only contain numbers and english letters'),
-    body('firstName').isAlpha().withMessage('First name can only contain english letters'),
-    body('lastName').isAlpha().withMessage('Last name can only contain english letters'),
+    body('name').isLength({ min: 3, max: 18  }).withMessage('Username must be 3-18 characters').bail().isAlphanumeric().withMessage('Name can only contain numbers and english letters'),
     async (req, res, next) => {
         let errors = validationResult(req);
         let body = req.body;
@@ -31,32 +29,15 @@ router.post('/',
                 formattedErrors[value.param] = value.msg;
             }
 
-            return res.render('createUser',{formattedErrors, body});
+            return res.render('createTeam',{formattedErrors, body});
 
         }
+         
+        let result  = await DB.registerTeam(body.name,
+            req.session.Token);
+            body={};
+            return res.render('createTeam',{formattedErrors,body});
 
-        let salt = await bcrypt.genSalt();
-        let hashedPassword = await bcrypt.hash(body.password,salt);
-
-
-        let result  = await DB.registerUser(body.firstName,
-            body.lastName,
-            body.username,
-            hashedPassword,
-            salt,
-            typeof body.isAdmin === 'undefined' ? 0 : 1,
-            'nqkavToken');
-
-        if(typeof result[0].Success !== 'undefined'){
-
-            let body = {};
-            return res.render('createUser',{formattedErrors,body});
-
-        }else{
-
-            formattedErrors = {username : 'There is already user with that username'};
-            return res.render('createUser',{formattedErrors, body});
-
-        }
     });
 module.exports = router;
+ 

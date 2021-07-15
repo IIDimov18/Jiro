@@ -109,6 +109,26 @@ class db {
         return result.recordset;
     }
 
+    async registerTeam(name,token) {
+        const request = new sql.Request();
+
+        request.input('name', sql.NVarChar, name)
+        .input('token',sql.VarChar, token);
+
+        let result;
+
+        try {
+            result = await request.query(
+                `INSERT INTO Teams (Title, IdOfCreator) VALUES (@name, (SELECT Id FROM Users WHERE Token = @token))`
+            );
+        } catch (err) {
+            return new Array(err);
+        }
+
+        return result.recordset;
+    }
+
+
     async deleteUser(id){
         const request = new sql.Request();
 

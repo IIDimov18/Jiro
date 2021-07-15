@@ -8,12 +8,18 @@ let DB = new db();
 
 /* GET users listing. */
 router.get('/', async function(req, res, next) {
+  if(req.session.isAdmin != true){
+    res.redirect('login');
+  }
   let users = await DB.getUsers();
 
   res.render('users', {users});
 });
 
 router.post('/delete/:Id', async (req,res)=> {
+  if(req.session.isAdmin != true){
+    res.redirect('login');
+  }
     console.log('Test');
     if(typeof req.params.Id !== 'undefined'){
         await DB.deleteUser(req.params.Id);
@@ -25,6 +31,9 @@ router.post('/',
     body('firstName').isAlpha().withMessage('First name can only contain english letters'),
     body('lastName').isAlpha().withMessage('Last name can only contain english letters'),
     async (req, res, next) => {
+      if(req.session.isAdmin != true){
+        res.redirect('login');
+      }
       let errors = validationResult(req);
       let body = req.body;
       let formattedErrors = {};
@@ -44,7 +53,7 @@ router.post('/',
           body.firstName,
           body.lastName,
           typeof body.isAdmin === 'undefined' ? 0 : 1,
-          'nqkavToken');
+          req.session.Token);
 
       res.redirect('back');
     });
